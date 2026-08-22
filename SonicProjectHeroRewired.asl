@@ -35,7 +35,7 @@ update
     current.loadingScene = vars.Helper.Scenes.Loaded[0].Name ?? current.loadingScene;
 
     //If the IGT has been reset to 0 (e.g. by finishing or restarting a level), add the old IGT to the tally
-    if (current.timeAlive == 0 && old.timeAlive != 0 && current.activeScene != "HubEntrance"){
+    if ((current.timeAlive == 0 && old.timeAlive != 0 && current.activeScene != "HubEntrance") || (current.timeAlive < old.timeAlive && old.activeScene == "HubEntrance")){
         vars.totalTime += old.timeAlive;
     }
 
@@ -76,7 +76,7 @@ onStart
 gameTime
 {
     //If the player is in the hub do not add any IGT
-    var timeAlive = current.activeScene != "HubEntrance" ? current.timeAlive : 0;
+    var timeAlive = current.timeAlive;
     return TimeSpan.FromSeconds(vars.totalTime + timeAlive);
 }
 
